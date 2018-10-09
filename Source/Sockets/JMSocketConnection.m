@@ -71,17 +71,13 @@ static NSUInteger JMSocketConnectionBufferSize	= 1 << 16;
 	_socket.inputStream.delegate = self;
 	_socket.outputStream.delegate = self;
 	
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
+	dispatch_async(dispatch_get_main_queue(),
 	^{
-		_backgroundRunLoop = [NSRunLoop currentRunLoop];
-		[_socket.inputStream scheduleInRunLoop:_backgroundRunLoop forMode:NSDefaultRunLoopMode];
-		[_socket.outputStream scheduleInRunLoop:_backgroundRunLoop forMode:NSDefaultRunLoopMode];
+		[_socket.inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+		[_socket.outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 					   
 		[_socket.inputStream open];
 		[_socket.outputStream open];
-					   
-		[_backgroundRunLoop run];
-					   
 	});
 	
 	return YES;
