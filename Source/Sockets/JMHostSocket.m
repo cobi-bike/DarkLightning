@@ -63,6 +63,9 @@
 	
 	_inputStream = (__bridge NSInputStream *)(readStream);
 	_outputStream = (__bridge NSOutputStream *)(writeStream);
+
+    CFRelease(readStream);
+    CFRelease(writeStream);
 	
 	self.state = JMSocketStateConnected;
 	
